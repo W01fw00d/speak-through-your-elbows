@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 import preload from "./lifeCycle/preload";
-import create from "./lifeCycle/create";
+import create from "./lifeCycle/create/index";
 import update from "./lifeCycle/update";
 
 const init = () => {
