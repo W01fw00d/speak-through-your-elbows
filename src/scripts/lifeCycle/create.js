@@ -1,3 +1,5 @@
+import Phaser from "phaser";
+
 export default function create() {
   let stars;
   let bombs;
@@ -37,71 +39,91 @@ export default function create() {
     player.anims.play("turn");
   }
 
-  // this.add.image(400, 300, 'sky'); //Position image from background center, as this background is 800 x 600, we use 400 and 300
-  this.add.image(0, 0, "sky").setOrigin(0, 0); //Reset the drawing position to the top-left
+  const createPlatforms = () => {
+    const createPlatform = (width, height) =>
+      platforms.create(width, height, "ground");
 
-  //Platforms creation
-  platforms = this.physics.add.staticGroup();
+    platforms = this.physics.add.staticGroup();
 
-  platforms.create(400, 568, "ground").setScale(2).refreshBody();
+    createPlatform(400, 568).setScale(2).refreshBody();
+    createPlatform(600, 400);
+    createPlatform(50, 250);
+    createPlatform(750, 220);
+  };
 
-  platforms.create(600, 400, "ground");
-  platforms.create(50, 250, "ground");
-  platforms.create(750, 220, "ground");
+  const createStarts = () => {
+    stars = this.physics.add.group({
+      key: "star",
+      repeat: 11,
+      setXY: { x: 12, y: 0, stepX: 70 },
+    });
 
-  //Stars creation
-  stars = this.physics.add.group({
-    key: "star",
-    repeat: 11,
-    setXY: { x: 12, y: 0, stepX: 70 },
-  });
+    stars.children.iterate((child) => {
+      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
+    });
 
-  stars.children.iterate((child) => {
-    child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-  });
+    this.physics.add.collider(stars, platforms);
+  };
 
-  this.physics.add.collider(stars, platforms);
+  const createBombs = () => {
+    bombs = this.physics.add.group();
 
-  //Bombs creation
-  bombs = this.physics.add.group();
+    this.physics.add.collider(bombs, platforms);
+  };
 
-  this.physics.add.collider(bombs, platforms);
+  const createPlayer = () => {
+    const PLAYER_ASSET = "gabo";
 
-  //Player creation
-  this.player = this.physics.add.sprite(100, 450, "dude");
+    const createAnimations = () => {
+      this.anims.create({
+        key: "left",
+        frames: this.anims.generateFrameNumbers(PLAYER_ASSET, {
+          start: 0,
+          end: 3,
+        }),
+        frameRate: 10,
+        repeat: -1,
+      });
 
-  //player.setBounce(0.2);
-  this.player.setCollideWorldBounds(true);
+      this.anims.create({
+        key: "turn",
+        frames: [{ key: PLAYER_ASSET, frame: 4 }],
+        frameRate: 20,
+      });
 
-  this.anims.create({
-    key: "left",
-    frames: this.anims.generateFrameNumbers("dude", { start: 0, end: 3 }),
-    frameRate: 10,
-    repeat: -1,
-  });
+      this.anims.create({
+        key: "right",
+        frames: this.anims.generateFrameNumbers(PLAYER_ASSET, {
+          start: 5,
+          end: 8,
+        }),
+        frameRate: 10,
+        repeat: -1,
+      });
+    };
 
-  this.anims.create({
-    key: "turn",
-    frames: [{ key: "dude", frame: 4 }],
-    frameRate: 20,
-  });
+    const createCollisions = () => {
+      this.player.setCollideWorldBounds(true);
+      this.physics.add.collider(this.player, platforms);
+      this.physics.add.overlap(this.player, stars, collectStar, null, this);
+      this.physics.add.collider(this.player, bombs, hitBomb, null, this);
+    };
 
-  this.anims.create({
-    key: "right",
-    frames: this.anims.generateFrameNumbers("dude", { start: 5, end: 8 }),
-    frameRate: 10,
-    repeat: -1,
-  });
+    this.player = this.physics.add.sprite(100, 450, PLAYER_ASSET);
+    //this.player.setBounce(0.2);
+    createAnimations();
+    createCollisions();
+  };
 
-  this.physics.add.collider(this.player, platforms);
-
-  this.physics.add.overlap(this.player, stars, collectStar, null, this);
-
-  this.physics.add.collider(this.player, bombs, hitBomb, null, this);
+  this.add.image(0, 0, "sky").setOrigin(0, 0);
+  createPlatforms();
+  createStarts();
+  createBombs();
+  createPlayer();
 
   this.cursors = this.input.keyboard.createCursorKeys();
 
-  scoreText = this.add.text(16, 16, "score: 0", {
+  scoreText = this.add.text(16, 16, "Score: 0", {
     fontSize: "32px",
     fill: "#000",
   });

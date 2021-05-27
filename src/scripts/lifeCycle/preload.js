@@ -7,7 +7,7 @@ export default function preload() {
   loadImage("star");
   loadImage("bomb");
 
-  this.load.spritesheet("dude", getAsset("gabo"), {
+  this.load.spritesheet("gabo", getAsset("gabo"), {
     frameWidth: 32,
     frameHeight: 48,
   });
