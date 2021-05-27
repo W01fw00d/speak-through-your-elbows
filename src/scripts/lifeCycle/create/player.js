@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default (that, stars, bombs, platforms) => {
+export default (that) => {
   const PLAYER_ASSET = "gabo";
 
   let score = 0;
@@ -40,8 +40,8 @@ export default (that, stars, bombs, platforms) => {
       score += 10;
       that.scoreText.setText("Score: " + score);
 
-      if (stars.countActive(true) === 0) {
-        stars.children.iterate((child) => {
+      if (that.stars.countActive(true) === 0) {
+        that.stars.children.iterate((child) => {
           child.enableBody(true, child.x, 0, true, true);
         });
 
@@ -51,7 +51,7 @@ export default (that, stars, bombs, platforms) => {
             ? Phaser.Math.Between(400, 800)
             : Phaser.Math.Between(0, 400);
 
-        const bomb = bombs.create(x, 16, "bomb");
+        const bomb = that.bombs.create(x, 16, "bomb");
         bomb.setBounce(1);
         bomb.setCollideWorldBounds(true);
         bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
@@ -67,9 +67,9 @@ export default (that, stars, bombs, platforms) => {
     }
 
     that.player.setCollideWorldBounds(true);
-    that.physics.add.collider(that.player, platforms);
-    that.physics.add.overlap(that.player, stars, collectStar, null, that);
-    that.physics.add.collider(that.player, bombs, hitBomb, null, that);
+    that.physics.add.collider(that.player, that.platforms);
+    that.physics.add.overlap(that.player, that.stars, collectStar, null, that);
+    that.physics.add.collider(that.player, that.bombs, hitBomb, null, that);
   };
 
   that.player = that.physics.add.sprite(100, 450, PLAYER_ASSET);
