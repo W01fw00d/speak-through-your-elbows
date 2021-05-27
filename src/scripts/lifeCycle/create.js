@@ -7,38 +7,6 @@ export default function create() {
   let score = 0;
   let scoreText;
 
-  function collectStar(player, star) {
-    star.disableBody(true, true);
-
-    score += 10;
-    scoreText.setText("Score: " + score);
-
-    if (stars.countActive(true) === 0) {
-      stars.children.iterate((child) => {
-        child.enableBody(true, child.x, 0, true, true);
-      });
-
-      //Put bomb on opposite part of the world from the player
-      const x =
-        player.x < 400
-          ? Phaser.Math.Between(400, 800)
-          : Phaser.Math.Between(0, 400);
-
-      const bomb = bombs.create(x, 16, "bomb");
-      bomb.setBounce(1);
-      bomb.setCollideWorldBounds(true);
-      bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-    }
-  }
-
-  function hitBomb(player) {
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play("turn");
-  }
-
   const createPlatforms = () => {
     const createPlatform = (width, height) =>
       platforms.create(width, height, "ground");
@@ -103,6 +71,38 @@ export default function create() {
     };
 
     const createCollisions = () => {
+      function collectStar(player, star) {
+        star.disableBody(true, true);
+
+        score += 10;
+        scoreText.setText("Score: " + score);
+
+        if (stars.countActive(true) === 0) {
+          stars.children.iterate((child) => {
+            child.enableBody(true, child.x, 0, true, true);
+          });
+
+          //Put bomb on opposite part of the world from the player
+          const x =
+            player.x < 400
+              ? Phaser.Math.Between(400, 800)
+              : Phaser.Math.Between(0, 400);
+
+          const bomb = bombs.create(x, 16, "bomb");
+          bomb.setBounce(1);
+          bomb.setCollideWorldBounds(true);
+          bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        }
+      }
+
+      function hitBomb(player) {
+        this.physics.pause();
+
+        player.setTint(0xff0000);
+
+        player.anims.play("turn");
+      }
+
       this.player.setCollideWorldBounds(true);
       this.physics.add.collider(this.player, platforms);
       this.physics.add.overlap(this.player, stars, collectStar, null, this);
