@@ -1,9 +1,13 @@
 export default function preload() {
-  this.load.image("sky", "assets/sky.png");
-  this.load.image("ground", "assets/platform.png");
-  this.load.image("star", "assets/star.png");
-  this.load.image("bomb", "assets/bomb.png");
-  this.load.spritesheet("dude", "assets/gabo.png", {
+  const getAsset = (name) => `assets/${name}.png`;
+  const loadImage = (name) => this.load.image(name, getAsset(name));
+
+  loadImage("sky");
+  loadImage("ground");
+  loadImage("star");
+  loadImage("bomb");
+
+  this.load.spritesheet("dude", getAsset("gabo"), {
     frameWidth: 32,
     frameHeight: 48,
   });

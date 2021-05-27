@@ -12,7 +12,7 @@ export default function create() {
     scoreText.setText("Score: " + score);
 
     if (stars.countActive(true) === 0) {
-      stars.children.iterate(function (child) {
+      stars.children.iterate((child) => {
         child.enableBody(true, child.x, 0, true, true);
       });
 
@@ -56,7 +56,7 @@ export default function create() {
     setXY: { x: 12, y: 0, stepX: 70 },
   });
 
-  stars.children.iterate(function (child) {
+  stars.children.iterate((child) => {
     child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
   });
 
