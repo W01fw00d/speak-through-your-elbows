@@ -1,34 +1,13 @@
 import Phaser from "phaser";
 
 const init = () => {
-  var config = {
-    type: Phaser.AUTO,
-    width: 800,
-    height: 600,
-    physics: {
-      default: "arcade",
-      arcade: {
-        gravity: { y: 300 },
-        debug: false,
-      },
-    },
-    scene: {
-      preload: preload,
-      create: create,
-      update: update,
-    },
-  };
-
-  var player;
-  var stars;
-  var bombs;
-  var platforms;
-  var cursors;
-  var score = 0;
-  var gameOver = false;
-  var scoreText;
-
-  var game = new Phaser.Game(config);
+  let player;
+  let stars;
+  let bombs;
+  let platforms;
+  let cursors;
+  let score = 0;
+  let scoreText;
 
   function preload() {
     this.load.image("sky", "assets/sky.png");
@@ -144,27 +123,43 @@ const init = () => {
       });
 
       //Put bomb on opposite part of the world from the player
-      var x =
+      const x =
         player.x < 400
           ? Phaser.Math.Between(400, 800)
           : Phaser.Math.Between(0, 400);
 
-      var bomb = bombs.create(x, 16, "bomb");
+      const bomb = bombs.create(x, 16, "bomb");
       bomb.setBounce(1);
       bomb.setCollideWorldBounds(true);
       bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
     }
   }
 
-  function hitBomb(player, bomb) {
+  function hitBomb(player) {
     this.physics.pause();
 
     player.setTint(0xff0000);
 
     player.anims.play("turn");
-
-    gameOver = true;
   }
+
+  new Phaser.Game({
+    type: Phaser.AUTO,
+    width: 800,
+    height: 600,
+    physics: {
+      default: "arcade",
+      arcade: {
+        gravity: { y: 200 },
+        debug: false,
+      },
+    },
+    scene: {
+      preload,
+      create,
+      update,
+    },
+  });
 };
 
 document.addEventListener("DOMContentLoaded", init);
