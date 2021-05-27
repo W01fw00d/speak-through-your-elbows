@@ -1,0 +1,24 @@
+{
+  "name": "speak-through-your-elbows",
+  "version": "1.0.0",
+  "description": "Experimental game based on Phaser 3 Official Tutorial",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel watch ./src/scripts/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/W01fw00d/speak-through-your-elbows.git"
+  },
+  "author": "https://github.com/W01fw00d",
+  "license": "GNU GENERAL PUBLIC LICENSE",
+  "bugs": {
+    "url": "https://github.com/W01fw00d/speak-through-your-elbows/issues"
+  },
+  "homepage": "https://github.com/W01fw00d/speak-through-your-elbows#readme",
+  "dependencies": {
+    "parcel-bundler": "^1.12.5",
+    "phaser": "^3.55.1"
+  }
+}
