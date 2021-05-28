@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 
 import { WIDTH as SCENE_WIDTH } from "../../constants/scene";
+import {
+  BOMB as BOMB_ASSET,
+  PLAYER as PLAYER_ASSET,
+} from "../../constants/assets";
 
 import { applyScoreTemplate } from "./constants/literals";
 
 export default (that) => {
-  const PLAYER_ASSET = "gabo";
-
   let score = 0;
 
   const createAnimations = () => {
@@ -56,7 +58,11 @@ export default (that) => {
             : between(0, MIDDLE_SCENE_X);
         };
 
-        const bomb = that.bombs.create(getXOppositeFromPlayer(), 16, "bomb");
+        const bomb = that.bombs.create(
+          getXOppositeFromPlayer(),
+          16,
+          BOMB_ASSET
+        );
         bomb.setBounce(1);
         bomb.setCollideWorldBounds(true);
 

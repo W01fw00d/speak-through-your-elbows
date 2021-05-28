@@ -1,12 +1,14 @@
 import Phaser from "phaser";
 
+import { SKY, GROUND, STAR } from "../../constants/assets";
+
 import { applyScoreTemplate } from "./constants/literals";
 import createPlayer from "./player.js";
 
 export default function create() {
   const createPlatforms = () => {
     const createPlatform = (width, height) =>
-      this.platforms.create(width, height, "ground");
+      this.platforms.create(width, height, GROUND);
 
     this.platforms = this.physics.add.staticGroup();
 
@@ -18,7 +20,7 @@ export default function create() {
 
   const createStars = () => {
     this.stars = this.physics.add.group({
-      key: "star",
+      key: STAR,
       repeat: 11,
       setXY: { x: 12, y: 0, stepX: 70 },
     });
@@ -44,7 +46,7 @@ export default function create() {
     });
   };
 
-  this.add.image(0, 0, "sky").setOrigin(0, 0);
+  this.add.image(0, 0, SKY).setOrigin(0, 0);
   createPlatforms();
   createStars();
   createBombs();
