@@ -2,6 +2,8 @@ import Phaser from "phaser";
 
 import { WIDTH as SCENE_WIDTH } from "../../constants/scene";
 
+import { applyScoreTemplate } from "./constants/literals";
+
 export default (that) => {
   const PLAYER_ASSET = "gabo";
 
@@ -68,7 +70,7 @@ export default (that) => {
       star.disableBody(true, true);
 
       score += 10;
-      that.scoreText.setText(`Score: ${score}`);
+      that.scoreText.setText(applyScoreTemplate(score));
 
       if (that.stars.countActive(true) === 0) {
         resetStars();

@@ -1,5 +1,6 @@
 import Phaser from "phaser";
 
+import { applyScoreTemplate } from "./constants/literals";
 import createPlayer from "./player.js";
 
 export default function create() {
@@ -37,7 +38,7 @@ export default function create() {
 
   const createScoreText = () => {
     const BLACK = "#000";
-    this.scoreText = this.add.text(16, 16, "Score: 0", {
+    this.scoreText = this.add.text(16, 16, applyScoreTemplate(0), {
       fontSize: "32px",
       fill: BLACK,
     });
