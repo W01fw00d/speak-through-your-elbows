@@ -35,34 +35,52 @@ export default (that) => {
 
   const createCollisions = () => {
     function collectStar(player, star) {
-      star.disableBody(true, true);
-
-      score += 10;
-      that.scoreText.setText("Score: " + score);
-
-      if (that.stars.countActive(true) === 0) {
+      const resetStars = () => {
         that.stars.children.iterate((child) => {
           child.enableBody(true, child.x, 0, true, true);
         });
+      };
 
-        //Put bomb on opposite part of the world from the player
-        const x =
-          player.x < 400
-            ? Phaser.Math.Between(400, 800)
-            : Phaser.Math.Between(0, 400);
+      const createBomb = () => {
+        const getXOppositeFromPlayer = () => {
+          const MAX_MAP_X = 800;
+          const MIDDLE_MAP_X = MAX_MAP_X / 2;
 
-        const bomb = that.bombs.create(x, 16, "bomb");
+          const between = Phaser.Math.Between;
+
+          return player.x < MIDDLE_MAP_X
+            ? between(MIDDLE_MAP_X, MAX_MAP_X)
+            : between(0, MIDDLE_MAP_X);
+        };
+
+        const bomb = that.bombs.create(getXOppositeFromPlayer(), 16, "bomb");
         bomb.setBounce(1);
         bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+
+        const BOMB_VELOCITY = 200;
+        bomb.setVelocity(
+          Phaser.Math.Between(-BOMB_VELOCITY, BOMB_VELOCITY),
+          20
+        );
+      };
+
+      star.disableBody(true, true);
+
+      score += 10;
+      that.scoreText.setText(`Score: ${score}`);
+
+      if (that.stars.countActive(true) === 0) {
+        resetStars();
+        createBomb();
       }
     }
 
     function hitBomb(player) {
+      const RED = 0xff0000;
+
       this.physics.pause();
 
-      player.setTint(0xff0000);
-
+      player.setTint(RED);
       player.anims.play("turn");
     }
 
