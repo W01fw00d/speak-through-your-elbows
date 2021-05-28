@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import { WIDTH as SCENE_WIDTH } from "../../constants/scene";
+
 export default (that) => {
   const PLAYER_ASSET = "gabo";
 
@@ -43,14 +45,13 @@ export default (that) => {
 
       const createBomb = () => {
         const getXOppositeFromPlayer = () => {
-          const MAX_MAP_X = 800;
-          const MIDDLE_MAP_X = MAX_MAP_X / 2;
+          const MIDDLE_SCENE_X = SCENE_WIDTH / 2;
 
           const between = Phaser.Math.Between;
 
-          return player.x < MIDDLE_MAP_X
-            ? between(MIDDLE_MAP_X, MAX_MAP_X)
-            : between(0, MIDDLE_MAP_X);
+          return player.x < MIDDLE_SCENE_X
+            ? between(MIDDLE_SCENE_X, SCENE_WIDTH)
+            : between(0, MIDDLE_SCENE_X);
         };
 
         const bomb = that.bombs.create(getXOppositeFromPlayer(), 16, "bomb");

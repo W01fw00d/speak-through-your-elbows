@@ -1,5 +1,7 @@
 import Phaser from "phaser";
 
+import { WIDTH, HEIGHT } from "./constants/scene";
+
 import preload from "./lifeCycle/preload";
 import create from "./lifeCycle/create/index";
 import update from "./lifeCycle/update";
@@ -10,8 +12,8 @@ const init = () => {
 
   new Phaser.Game({
     type: Phaser.AUTO,
-    width: 800,
-    height: 600,
+    width: WIDTH,
+    height: HEIGHT,
     physics: {
       default: "arcade",
       arcade: {
