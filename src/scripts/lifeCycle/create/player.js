@@ -5,6 +5,7 @@ import {
   BOMB as BOMB_ASSET,
   PLAYER as PLAYER_ASSET,
 } from "../../constants/assets";
+import { LEFT, RIGHT, TURN } from "../../constants/animations/player";
 
 import { applyScoreTemplate } from "./constants/literals";
 
@@ -13,7 +14,7 @@ export default (that) => {
 
   const createAnimations = () => {
     that.anims.create({
-      key: "left",
+      key: LEFT,
       frames: that.anims.generateFrameNumbers(PLAYER_ASSET, {
         start: 0,
         end: 3,
@@ -23,13 +24,13 @@ export default (that) => {
     });
 
     that.anims.create({
-      key: "turn",
+      key: TURN,
       frames: [{ key: PLAYER_ASSET, frame: 4 }],
       frameRate: 20,
     });
 
     that.anims.create({
-      key: "right",
+      key: RIGHT,
       frames: that.anims.generateFrameNumbers(PLAYER_ASSET, {
         start: 5,
         end: 8,
