@@ -12,7 +12,9 @@ export default function create() {
 
     this.platforms = this.physics.add.staticGroup();
 
-    createPlatform(400, 568).setScale(2).refreshBody();
+    createPlatform(400, 568)
+      .setScale(2)
+      .refreshBody();
     createPlatform(600, 400);
     createPlatform(50, 250);
     createPlatform(750, 220);
