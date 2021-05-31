@@ -4,7 +4,7 @@
   "description": "Experimental game based on Phaser 3 Official Tutorial",
   "main": "index.html",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cypress open",
     "build": "parcel watch ./src/scripts/index.js"
   },
   "repository": {
@@ -20,5 +20,10 @@
   "dependencies": {
     "parcel-bundler": "^1.12.5",
     "phaser": "^3.55.1"
+  },
+  "devDependencies": {
+    "cypress": "^7.4.0",
+    "cypress-plugin-snapshots": "^1.4.4",
+    "js-base64": "^2.5.2"
   }
 }

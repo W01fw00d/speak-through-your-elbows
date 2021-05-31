@@ -13,3 +13,11 @@ npm run build
 You need to serve `index.html` in a server in order to run it locally.
 
 I recommend using the VScode extension [LiveServer](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer).
+
+## Visual Regression Testing
+
+After having deployed the game locally, just run:
+
+```
+npm run test
+```
