@@ -26,17 +26,19 @@ export default function update() {
     },
   };
 
-  if (this.cursors.left.isDown) {
-    action.moveLeft();
-  } else if (this.cursors.right.isDown) {
-    action.moveRight();
-  } else {
-    action.stop();
-  }
+  if (!this.gameOver) {
+    if (this.cursors.left.isDown) {
+      action.moveLeft();
+    } else if (this.cursors.right.isDown) {
+      action.moveRight();
+    } else {
+      action.stop();
+    }
 
-  if (this.cursors.up.isDown && this.player.body.touching.down) {
-    action.jump();
-    jumpSound.play();
+    if (this.cursors.up.isDown && this.player.body.touching.down) {
+      action.jump();
+      jumpSound.play();
+    }
   }
 
   this.playerIsTalking = false;

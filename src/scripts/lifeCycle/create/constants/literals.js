@@ -1,1 +1,1 @@
-export const applyScoreTemplate = (score) => `Self-expression: ${score} %`;
+export const applyScoreTemplate = (score) => `Happyness: ${score}%`;

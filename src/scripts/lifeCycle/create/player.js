@@ -10,6 +10,8 @@ export default (that) => {
 
     setTimeout(() => {
       function gameOver() {
+        that.gameOver = true;
+
         const RED = 0xff0000;
 
         that.physics.pause();
@@ -65,20 +67,22 @@ export default (that) => {
       //const speed = 0.01;
       const STEP = 1;
 
-      if (NPC.data.patience > 0) {
-        NPC.data.patience -= STEP;
+      if (!that.gameOver) {
+        if (NPC.data.patience > 0) {
+          NPC.data.patience -= STEP;
 
-        that.playerIsTalking = true;
+          that.playerIsTalking = true;
 
-        if (that.score < 100) {
-          that.score += STEP;
+          if (that.score < 100) {
+            that.score += STEP;
 
-          that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
+            that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
+          } else {
+            console.log("Your self-expression is full!");
+          }
         } else {
-          console.log("Your self-expression is full!");
+          console.log("NPC walks away!");
         }
-      } else {
-        console.log("NPC walks away!");
       }
     }
 
