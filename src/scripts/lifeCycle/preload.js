@@ -1,4 +1,4 @@
-import { SKY, GROUND, PLAYER, NPC_1 } from "../constants/assets";
+import { SKY, GROUND, PLAYER, NPC_1, BUBBLE } from "../constants/assets";
 
 export default function preload() {
   const loadAssets = () => {
@@ -7,6 +7,7 @@ export default function preload() {
 
     loadImage(SKY);
     loadImage(GROUND);
+    loadImage(BUBBLE);
 
     this.load.spritesheet(PLAYER, getAsset(PLAYER), {
       frameWidth: 32,

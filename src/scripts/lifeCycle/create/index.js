@@ -1,4 +1,4 @@
-import { SKY, GROUND, NPC_1 } from "../../constants/assets";
+import { SKY, GROUND, NPC_1, BUBBLE } from "../../constants/assets";
 
 import { applyScoreTemplate } from "./constants/literals";
 import createPlayer from "./player.js";
@@ -19,25 +19,41 @@ export default function create() {
   };
 
   const createNPCs = () => {
-    this.npcs = this.physics.add.group({
-      key: NPC_1,
-      repeat: 1,
-      //setXY: { x: 450, y: 0, stepX: 50 },
-      setXY: { x: 320, y: 450, stepX: 50 }, // Position for testing
-    });
+    const createCharacters = () => {
+      this.npcs = this.physics.add.group({
+        key: NPC_1,
+        repeat: 1,
+        //setXY: { x: 450, y: 0, stepX: 50 }, // Up the lower platform
+        setXY: { x: 320, y: 510, stepX: 50 },
+      });
 
-    const rightAnim = "right_npc1";
-    this.anims.create({
-      key: rightAnim,
-      frames: [{ key: NPC_1, frame: 5 }],
-      frameRate: 20,
-    });
-    this.npcs.children.entries[0].play(rightAnim);
+      const rightAnim = "right_npc1";
+      this.anims.create({
+        key: rightAnim,
+        frames: [{ key: NPC_1, frame: 5 }],
+        frameRate: 20,
+      });
 
-    this.npcs.children.entries[0].data = { name: "jj", patience: 100 };
-    this.npcs.children.entries[1].data = { name: "nacho", patience: 100 };
+      this.npcs.children.entries[0].play(rightAnim);
 
-    this.physics.add.collider(this.npcs, this.platforms);
+      this.npcs.children.entries[0].data = { name: "jj", patience: 100 };
+      this.npcs.children.entries[1].data = { name: "nacho", patience: 100 };
+
+      this.physics.add.collider(this.npcs, this.platforms);
+    };
+
+    const createBubbles = () => {
+      this.bubbles = this.physics.add.group({
+        key: BUBBLE,
+        repeat: 1,
+        setXY: { x: 325, y: 490, stepX: 40 },
+        allowGravity: false,
+      });
+      this.bubbles.children.entries[0].flipX = true;
+    };
+
+    createCharacters();
+    createBubbles();
   };
 
   const createScoreText = (score) => {
@@ -48,7 +64,7 @@ export default function create() {
     });
   };
 
-  const INITIAL_SCORE = 20;
+  const INITIAL_SCORE = 100;
 
   this.add.image(0, 0, SKY).setOrigin(0, 0);
   createPlatforms();
