@@ -36,4 +36,6 @@ export default function update() {
   if (this.cursors.up.isDown && this.player.body.touching.down) {
     action.jump();
   }
+
+  this.playerIsTalking = false;
 }

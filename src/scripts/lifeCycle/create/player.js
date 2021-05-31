@@ -10,7 +10,25 @@ import { LEFT, RIGHT, TURN } from "../../constants/animations/player";
 import { applyScoreTemplate } from "./constants/literals";
 
 export default (that) => {
-  let score = 0;
+  let score = 50;
+
+  const initScoreTimer = () => {
+    const STEP = 1;
+    const DELAY = 100;
+
+    setTimeout(() => {
+      if (!that.playerIsTalking) {
+        score -= STEP;
+        that.scoreText.setText(applyScoreTemplate(Math.ceil(score)));
+      }
+
+      if (score > 0) {
+        initScoreTimer();
+      } else {
+        console.log("Game over!");
+      }
+    }, DELAY);
+  };
 
   const createAnimations = () => {
     that.anims.create({
@@ -85,6 +103,28 @@ export default (that) => {
       }
     }
 
+    function speakWithNPC(player, NPC) {
+      //console.log(player, "speaking with", NPC);
+      //const speed = 0.01;
+      const STEP = 1;
+
+      if (NPC.data.patience > 0) {
+        NPC.data.patience -= STEP;
+
+        that.playerIsTalking = true;
+
+        if (score < 100) {
+          score += STEP;
+
+          that.scoreText.setText(applyScoreTemplate(Math.ceil(score)));
+        } else {
+          console.log("Your self-expression is full!");
+        }
+      } else {
+        console.log("NPC walks away!");
+      }
+    }
+
     function hitBomb(player) {
       const RED = 0xff0000;
 
@@ -96,7 +136,8 @@ export default (that) => {
 
     that.player.setCollideWorldBounds(true);
     that.physics.add.collider(that.player, that.platforms);
-    that.physics.add.overlap(that.player, that.stars, collectStar, null, that);
+    //that.physics.add.overlap(that.player, that.stars, collectStar, null, that);
+    that.physics.add.overlap(that.player, that.npcs, speakWithNPC, null, that);
     that.physics.add.collider(that.player, that.bombs, hitBomb, null, that);
   };
 
@@ -104,4 +145,7 @@ export default (that) => {
   //that.player.setBounce(0.2);
   createAnimations();
   createCollisions();
+
+  that.playerIsTalking = false;
+  initScoreTimer();
 };
