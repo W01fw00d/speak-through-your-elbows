@@ -3,6 +3,7 @@ import { LEFT, RIGHT, TURN } from "../constants/animations/player";
 export default function update() {
   const X_VELOCITY = 160;
   const Y_VELOCITY = 305;
+  const jumpSound = this.sound.add("jump");
 
   const action = {
     moveLeft: () => {
@@ -35,6 +36,7 @@ export default function update() {
 
   if (this.cursors.up.isDown && this.player.body.touching.down) {
     action.jump();
+    jumpSound.play();
   }
 
   this.playerIsTalking = false;
