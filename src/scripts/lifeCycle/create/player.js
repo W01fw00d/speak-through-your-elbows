@@ -1,31 +1,32 @@
-import Phaser from "phaser";
-
-import { WIDTH as SCENE_WIDTH } from "../../constants/scene";
-import {
-  BOMB as BOMB_ASSET,
-  PLAYER as PLAYER_ASSET,
-} from "../../constants/assets";
+import { PLAYER as PLAYER_ASSET } from "../../constants/assets";
 import { LEFT, RIGHT, TURN } from "../../constants/animations/player";
 
 import { applyScoreTemplate } from "./constants/literals";
 
 export default (that) => {
-  let score = 50;
-
   const initScoreTimer = () => {
     const STEP = 1;
     const DELAY = 100;
 
     setTimeout(() => {
-      if (!that.playerIsTalking) {
-        score -= STEP;
-        that.scoreText.setText(applyScoreTemplate(Math.ceil(score)));
+      function gameOver() {
+        const RED = 0xff0000;
+
+        that.physics.pause();
+
+        that.player.setTint(RED);
+        that.player.anims.play("turn");
       }
 
-      if (score > 0) {
+      if (!that.playerIsTalking) {
+        that.score -= STEP;
+        that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
+      }
+
+      if (that.score > 0) {
         initScoreTimer();
       } else {
-        console.log("Game over!");
+        gameOver();
       }
     }, DELAY);
   };
@@ -59,50 +60,6 @@ export default (that) => {
   };
 
   const createCollisions = () => {
-    function collectStar(player, star) {
-      const resetStars = () => {
-        that.stars.children.iterate((child) => {
-          child.enableBody(true, child.x, 0, true, true);
-        });
-      };
-
-      const createBomb = () => {
-        const getXOppositeFromPlayer = () => {
-          const MIDDLE_SCENE_X = SCENE_WIDTH / 2;
-
-          const between = Phaser.Math.Between;
-
-          return player.x < MIDDLE_SCENE_X
-            ? between(MIDDLE_SCENE_X, SCENE_WIDTH)
-            : between(0, MIDDLE_SCENE_X);
-        };
-
-        const bomb = that.bombs.create(
-          getXOppositeFromPlayer(),
-          16,
-          BOMB_ASSET
-        );
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-
-        const BOMB_VELOCITY = 200;
-        bomb.setVelocity(
-          Phaser.Math.Between(-BOMB_VELOCITY, BOMB_VELOCITY),
-          20
-        );
-      };
-
-      star.disableBody(true, true);
-
-      score += 10;
-      that.scoreText.setText(applyScoreTemplate(score));
-
-      if (that.stars.countActive(true) === 0) {
-        resetStars();
-        createBomb();
-      }
-    }
-
     function speakWithNPC(player, NPC) {
       //console.log(player, "speaking with", NPC);
       //const speed = 0.01;
@@ -113,10 +70,10 @@ export default (that) => {
 
         that.playerIsTalking = true;
 
-        if (score < 100) {
-          score += STEP;
+        if (that.score < 100) {
+          that.score += STEP;
 
-          that.scoreText.setText(applyScoreTemplate(Math.ceil(score)));
+          that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
         } else {
           console.log("Your self-expression is full!");
         }
@@ -125,20 +82,9 @@ export default (that) => {
       }
     }
 
-    function hitBomb(player) {
-      const RED = 0xff0000;
-
-      this.physics.pause();
-
-      player.setTint(RED);
-      player.anims.play("turn");
-    }
-
     that.player.setCollideWorldBounds(true);
     that.physics.add.collider(that.player, that.platforms);
-    //that.physics.add.overlap(that.player, that.stars, collectStar, null, that);
     that.physics.add.overlap(that.player, that.npcs, speakWithNPC, null, that);
-    that.physics.add.collider(that.player, that.bombs, hitBomb, null, that);
   };
 
   that.player = that.physics.add.sprite(100, 450, PLAYER_ASSET);

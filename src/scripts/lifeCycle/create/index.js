@@ -1,6 +1,4 @@
-import Phaser from "phaser";
-
-import { SKY, GROUND, STAR, NPC_1 } from "../../constants/assets";
+import { SKY, GROUND, NPC_1 } from "../../constants/assets";
 
 import { applyScoreTemplate } from "./constants/literals";
 import createPlayer from "./player.js";
@@ -18,20 +16,6 @@ export default function create() {
     createPlatform(600, 400);
     createPlatform(50, 250);
     createPlatform(750, 220);
-  };
-
-  const createStars = () => {
-    this.stars = this.physics.add.group({
-      key: STAR,
-      repeat: 11,
-      setXY: { x: 12, y: 0, stepX: 70 },
-    });
-
-    this.stars.children.iterate((child) => {
-      child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-    });
-
-    this.physics.add.collider(this.stars, this.platforms);
   };
 
   const createNPCs = () => {
@@ -56,27 +40,23 @@ export default function create() {
     this.physics.add.collider(this.npcs, this.platforms);
   };
 
-  const createBombs = () => {
-    this.bombs = this.physics.add.group();
-
-    this.physics.add.collider(this.bombs, this.platforms);
-  };
-
-  const createScoreText = () => {
+  const createScoreText = (score) => {
     const BLACK = "#000";
-    this.scoreText = this.add.text(16, 16, applyScoreTemplate(50), {
+    this.scoreText = this.add.text(16, 16, applyScoreTemplate(score), {
       fontSize: "32px",
       fill: BLACK,
     });
   };
 
+  const INITIAL_SCORE = 20;
+
   this.add.image(0, 0, SKY).setOrigin(0, 0);
   createPlatforms();
-  //createStars();
   createNPCs();
-  createBombs();
   createPlayer(this);
-  createScoreText();
+
+  this.score = INITIAL_SCORE;
+  createScoreText(this.score);
 
   this.cursors = this.input.keyboard.createCursorKeys();
 }
