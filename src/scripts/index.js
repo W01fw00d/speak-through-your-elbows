@@ -8,7 +8,7 @@ import update from "./lifeCycle/update";
 
 const init = () => {
   const gravity = { y: 200 };
-  const debug = true;
+  const debug = false;
 
   new Phaser.Game({
     type: Phaser.AUTO,
