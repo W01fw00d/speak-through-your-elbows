@@ -27,14 +27,34 @@ export default function create() {
         setXY: { x: 320, y: 510, stepX: 50 },
       });
 
-      const rightAnim = "right_npc1";
+      const rightLookAnim = "npc1_right_look";
       this.anims.create({
-        key: rightAnim,
+        key: rightLookAnim,
         frames: [{ key: NPC_1, frame: 5 }],
         frameRate: 20,
       });
 
-      this.npcs.children.entries[0].play(rightAnim);
+      this.anims.create({
+        key: "npc1_walk_left",
+        frames: this.anims.generateFrameNumbers(NPC_1, {
+          start: 0,
+          end: 3,
+        }),
+        frameRate: 10,
+        repeat: 100,
+      });
+
+      this.anims.create({
+        key: "npc1_walk_right",
+        frames: this.anims.generateFrameNumbers(NPC_1, {
+          start: 5,
+          end: 8,
+        }),
+        frameRate: 10,
+        repeat: 100,
+      });
+
+      this.npcs.children.entries[0].play(rightLookAnim);
 
       this.npcs.children.entries[0].data = { id: 0, name: "jj", patience: 100 };
       this.npcs.children.entries[1].data = {

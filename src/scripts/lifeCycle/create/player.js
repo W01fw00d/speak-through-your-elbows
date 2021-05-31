@@ -12,12 +12,13 @@ export default (that) => {
       function gameOver() {
         that.gameOver = true;
 
-        const RED = 0xff0000;
+        const BLACK = 0x000000;
 
         that.physics.pause();
 
-        that.player.setTint(RED);
+        that.player.setTint(BLACK);
         that.player.anims.play("turn");
+        that.scoreText.setText("And he died of solitude...");
       }
 
       if (!that.playerIsTalking) {
@@ -63,7 +64,6 @@ export default (that) => {
 
   const createCollisions = () => {
     function speakWithNPC(player, NPC) {
-      //console.log(player, "speaking with", NPC);
       //const speed = 0.01;
       const STEP = 1;
 
@@ -84,7 +84,11 @@ export default (that) => {
             console.log("Your happyness is full!");
           }
         } else {
-          console.log("NPC walks away!");
+          if (NPC.body.velocity.x === 0) {
+            NPC.play("npc1_walk_right");
+            NPC.setVelocityX(130);
+            console.log("NPC walks away!");
+          }
         }
       }
     }
