@@ -13,7 +13,7 @@ describe("Move player", () => {
     cy.get("canvas").toMatchImageSnapshot();
   });
 
-  it.only("Jump and pick star", () => {
+  it("Jump and pick star", () => {
     cy.visit("http://127.0.0.1:5500/");
 
     cy.wait(20000);
