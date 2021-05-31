@@ -70,6 +70,9 @@ export default (that) => {
       if (!that.gameOver) {
         if (NPC.data.patience > 0) {
           NPC.data.patience -= STEP;
+          this.bubbles.children.entries[NPC.data.id].setAlpha(
+            NPC.data.patience / 100
+          );
 
           that.playerIsTalking = true;
 
@@ -78,7 +81,7 @@ export default (that) => {
 
             that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
           } else {
-            console.log("Your self-expression is full!");
+            console.log("Your happyness is full!");
           }
         } else {
           console.log("NPC walks away!");

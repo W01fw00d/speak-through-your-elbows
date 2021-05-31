@@ -36,8 +36,12 @@ export default function create() {
 
       this.npcs.children.entries[0].play(rightAnim);
 
-      this.npcs.children.entries[0].data = { name: "jj", patience: 100 };
-      this.npcs.children.entries[1].data = { name: "nacho", patience: 100 };
+      this.npcs.children.entries[0].data = { id: 0, name: "jj", patience: 100 };
+      this.npcs.children.entries[1].data = {
+        id: 1,
+        name: "nacho",
+        patience: 100,
+      };
 
       this.physics.add.collider(this.npcs, this.platforms);
     };
