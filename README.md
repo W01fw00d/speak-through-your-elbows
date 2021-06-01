@@ -27,3 +27,5 @@ npm run test
 - `sky` and `ground` assets made using https://cssgradient.io/gradient-backgrounds/
 
 - SFXs made using https://www.drpetter.se/project_sfxr.html
+
+- Favicon formatted with https://www.favicon-generator.org/
