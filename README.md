@@ -24,6 +24,6 @@ npm run test
 
 ## Special Thanks
 
-- Sky background made using https://cssgradient.io/gradient-backgrounds/
+- `sky` and `ground` assets made using https://cssgradient.io/gradient-backgrounds/
 
 - SFXs made using https://www.drpetter.se/project_sfxr.html
