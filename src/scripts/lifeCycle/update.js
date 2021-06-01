@@ -6,7 +6,7 @@ export default function update() {
 
   const cancelSpeak = () => {
     this.playerIsTalking = false;
-    this.monologueSound.stop();
+    this.monologueSound.pause();
   };
 
   const action = {

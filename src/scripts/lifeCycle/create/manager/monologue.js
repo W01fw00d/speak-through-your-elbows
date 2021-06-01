@@ -8,12 +8,6 @@ export default (that) => {
   const MAX_MONOLOGUES = monologues.length - 1;
   let current = 0;
 
-  const stop = () => {
-    if (monologues[current].isPlaying) {
-      monologues[current].stop();
-    }
-  };
-
   const pause = () => {
     if (monologues[current].isPlaying) {
       monologues[current].pause();
@@ -21,16 +15,21 @@ export default (that) => {
   };
 
   const play = () => {
-    if (!monologues[current].isPlaying) {
-      if (current === MAX_MONOLOGUES) {
-        current = 0;
+    const currentMonologue = monologues[current];
+    if (!currentMonologue.isPlaying) {
+      if (currentMonologue.isPaused) {
+        currentMonologue.resume();
       } else {
-        current++;
-      }
+        if (current === MAX_MONOLOGUES) {
+          current = 0;
+        } else {
+          current++;
+        }
 
-      monologues[current].play();
+        monologues[current].play();
+      }
     }
   };
 
-  return { play, pause, stop };
+  return { play, pause };
 };
