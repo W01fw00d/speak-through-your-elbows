@@ -1,5 +1,5 @@
 describe("Move player", () => {
-  it("Pick star", () => {
+  it.skip("Pick star", () => {
     cy.visit("http://127.0.0.1:5500/");
 
     cy.wait(3000);
@@ -13,7 +13,7 @@ describe("Move player", () => {
     cy.get("canvas").toMatchImageSnapshot();
   });
 
-  it("Jump and pick star", () => {
+  it.skip("Jump and pick star", () => {
     cy.visit("http://127.0.0.1:5500/");
 
     cy.wait(20000);
