@@ -1,16 +1,15 @@
 export default (that) => {
-  const monologues = [
-    that.sound.add(`monologue1`),
-    that.sound.add(`monologue2`),
-    that.sound.add(`monologue3`),
-  ];
+  const monologues = [...Array(that.N_MONOLOGUES).keys()].map((monologue) =>
+    that.sound.add(`monologue${monologue}`)
+  );
 
-  const MAX_MONOLOGUES = monologues.length - 1;
+  const MAX_MONOLOGUES = that.N_MONOLOGUES - 1;
   let current = 0;
 
   const pause = () => {
-    if (monologues[current].isPlaying) {
-      monologues[current].pause();
+    const currentMonologue = monologues[current];
+    if (currentMonologue.isPlaying) {
+      currentMonologue.pause();
     }
   };
 
@@ -20,11 +19,7 @@ export default (that) => {
       if (currentMonologue.isPaused) {
         currentMonologue.resume();
       } else {
-        if (current === MAX_MONOLOGUES) {
-          current = 0;
-        } else {
-          current++;
-        }
+        current = current === MAX_MONOLOGUES ? 0 : ++current;
 
         monologues[current].play();
       }
