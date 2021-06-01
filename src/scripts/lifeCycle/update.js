@@ -3,15 +3,23 @@ import { LEFT, RIGHT, TURN } from "../constants/animations/player";
 export default function update() {
   const X_VELOCITY = 160;
   const Y_VELOCITY = 305;
-  const jumpSound = this.sound.add("jump");
+
+  const cancelSpeak = () => {
+    this.playerIsTalking = false;
+    this.monologueSound.stop();
+  };
 
   const action = {
     moveLeft: () => {
+      cancelSpeak();
+
       this.player.setVelocityX(-X_VELOCITY);
 
       this.player.anims.play(LEFT, true);
     },
     moveRight: () => {
+      cancelSpeak();
+
       this.player.setVelocityX(X_VELOCITY);
 
       this.player.anims.play(RIGHT, true);
@@ -22,6 +30,8 @@ export default function update() {
       this.player.anims.play(TURN);
     },
     jump: () => {
+      cancelSpeak();
+
       this.player.setVelocityY(-Y_VELOCITY);
     },
   };
@@ -37,9 +47,7 @@ export default function update() {
 
     if (this.cursors.up.isDown && this.player.body.touching.down) {
       action.jump();
-      jumpSound.play();
+      this.jumpSound.play();
     }
   }
-
-  this.playerIsTalking = false;
 }

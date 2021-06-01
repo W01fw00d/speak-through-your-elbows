@@ -2,10 +2,13 @@ import { PLAYER as PLAYER_ASSET } from "../../constants/assets";
 import { LEFT, RIGHT, TURN } from "../../constants/animations/player";
 
 import { applyScoreTemplate } from "./constants/literals";
+import MonologueManager from "./manager/monologue";
 
 export default (that) => {
+  that.monologueSound = MonologueManager(that);
+
   const initScoreTimer = () => {
-    const STEP = 1;
+    const STEP = 0.1;
     const DELAY = 100;
 
     setTimeout(() => {
@@ -64,16 +67,21 @@ export default (that) => {
 
   const createCollisions = () => {
     function speakWithNPC(player, NPC) {
-      //const speed = 0.01;
-      const STEP = 1;
+      //const STEP = 0.01;
+      const STEP = 0.1;
 
-      if (!that.gameOver) {
+      if (
+        !that.gameOver &&
+        player.body.velocity.x === 0 &&
+        player.body.velocity.y === 0
+      ) {
         if (NPC.data.patience > 0) {
           NPC.data.patience -= STEP;
           this.bubbles.children.entries[NPC.data.id].setAlpha(
             NPC.data.patience / 100
           );
 
+          that.monologueSound.play();
           that.playerIsTalking = true;
 
           if (that.score < 100) {
@@ -81,13 +89,16 @@ export default (that) => {
 
             that.scoreText.setText(applyScoreTemplate(Math.ceil(that.score)));
           } else {
-            console.log("Your happyness is full!");
+            //console.log("Your happyness is full!");
           }
         } else {
           if (NPC.body.velocity.x === 0) {
             NPC.play("npc1_walk_right");
             NPC.setVelocityX(130);
             console.log("NPC walks away!");
+
+            that.monologueSound.pause();
+            that.playerIsTalking = false;
           }
         }
       }
@@ -102,6 +113,8 @@ export default (that) => {
   //that.player.setBounce(0.2);
   createAnimations();
   createCollisions();
+
+  that.jumpSound = that.sound.add("jump");
 
   that.playerIsTalking = false;
   initScoreTimer();

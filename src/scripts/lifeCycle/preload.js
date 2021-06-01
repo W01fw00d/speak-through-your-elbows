@@ -21,6 +21,9 @@ export default function preload() {
 
   const loadSounds = () => {
     this.load.audio("jump", "sounds/jump.wav");
+    this.load.audio("monologue1", "sounds/monologues/1.mp3");
+    this.load.audio("monologue2", "sounds/monologues/2.mp3");
+    this.load.audio("monologue3", "sounds/monologues/3.mp3");
   };
 
   loadAssets();
