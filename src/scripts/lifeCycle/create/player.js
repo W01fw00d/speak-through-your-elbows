@@ -67,7 +67,6 @@ export default (that) => {
 
   const createCollisions = () => {
     function speakWithNPC(player, NPC) {
-      //const STEP = 0.01;
       const STEP = 0.1;
 
       if (
